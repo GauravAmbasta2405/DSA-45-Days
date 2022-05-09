@@ -1,0 +1,66 @@
+class Solution {
+public:
+    int reversePairs(vector<int>& a) {
+    int n=a.size(),count=0;   
+    vector<int>temp(n); 
+    mergeSort(a,0,n-1,&count,temp);   
+    return count;    
+}
+ void mergeSort(vector<int> &a,int beg,int end,int *count,vector<int> &temp)
+ {
+     int mid;
+     if(beg<end)
+     { 
+           mid=beg+(end-beg)/2;
+           mergeSort(a,beg,mid,count,temp);
+           mergeSort(a,mid+1,end,count,temp);
+           merge(a,beg,mid,end,count,temp);
+      }
+ }
+void merge(vector<int> &a,int beg,int mid,int end,int *count,vector<int> &temp)
+ {
+       int i=beg,j=mid+1,index=beg;
+       int x=i,y=j;
+        while(i<=mid && j<=end)
+      {
+              while(x<=mid && y<=end)//see this part 
+			  {
+                    if(a[x]>(long long int)2*a[y])
+                   {
+                           *count=*count+mid-x+1;
+                            y++;
+                   }
+                   else
+                            x++;
+       }
+      if(a[i]<=a[j])
+      {
+            temp[index]=a[i];
+            index++;
+            i++; 
+      }
+      else
+      {
+            temp[index]=a[j];
+            index++;
+            j++; 
+      }
+   }
+  while(i<=mid)
+  {
+        temp[index]=a[i];
+        index++;
+        i++;
+  }
+  while(j<=end)
+  {
+       temp[index]=a[j];
+       index++;
+       j++;
+  }
+  for(index=beg;index<=end;index++)
+  {
+       a[index]=temp[index];
+  }
+ }
+};
