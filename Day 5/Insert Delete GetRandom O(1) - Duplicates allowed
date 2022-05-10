@@ -1,0 +1,59 @@
+class RandomizedCollection {
+public:
+    RandomizedCollection() : n(0) {
+        prob.reserve(200000); // so no invalidation of iterators occur
+    }
+    
+    bool insert(int val) {
+       
+        prob[n] = make_pair(val, 0);
+        ++n;
+        
+        auto [it, ok] = tbl.insert(make_pair(val, vector<int>(1, n-1)));
+        
+        if (!ok) {
+            it->second.push_back(n-1);
+            prob[n-1].second = it->second.size() - 1;
+            
+            return false;
+        }
+        
+        return true;
+    }
+    
+    bool remove(int val) {
+                         
+        auto it = tbl.find(val);
+        if (it != tbl.end()) { //present
+            auto to_remove = it->second.back();
+                       
+            auto tmp = prob[n-1]; 
+            assert(tbl[tmp.first][tmp.second] == n-1);
+            tbl[tmp.first][tmp.second] = to_remove;
+            it->second.pop_back();
+            
+            prob[n-1] = prob[to_remove];
+            prob[to_remove] = tmp;
+            n--;
+            
+            if (it->second.size() == 0) {
+                tbl.erase(val);
+            } 
+            
+            
+            return true;
+        }
+        
+        // not present
+        return false;
+    }
+    
+    int getRandom() {
+        int r = rand() % n;
+        return prob[r].first;
+    }
+    
+    int n;
+    vector<pair<int,int>> prob;
+    unordered_map<int, vector<int>> tbl;
+};
