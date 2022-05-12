@@ -1,0 +1,25 @@
+class Solution {
+    vector<string> answer;
+    void solve(int& n, string &ans, int brackets=0){
+        if(ans.length()==2*n){
+            if(brackets==0)
+                answer.push_back(ans);
+            return;    
+        }
+        if(brackets<0)
+            return;
+        ans+='(';
+        solve(n, ans, brackets+1);
+        ans.pop_back();
+        ans+=')';
+        solve(n, ans, brackets-1);
+        ans.pop_back();
+    }
+public:
+    vector<string> generateParenthesis(int n) {
+        answer={};
+        string ans="";
+        solve(n, ans);
+        return answer;
+    }
+};
