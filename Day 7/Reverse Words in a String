@@ -1,0 +1,74 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        trim(s);
+        // cout<<s<<endl;
+        reverse(s.begin(),s.end());
+        
+        int l = s.size();
+        int curr=0;
+        for(int i=0;i<l;i++){
+            if(s[i]==' '){
+                reverse(s.begin()+curr,s.begin()+i);
+                curr=i+1;
+            }
+        }
+        
+        if(curr<l){
+            reverse(s.begin()+curr,s.begin()+l);
+        }
+        
+        
+        return s;
+    }
+    
+    void trim(string &str){
+            
+            // trim spaces from end
+            int ptr = str.length()-1;
+            while(str[ptr]==' ') ptr--;
+                
+            str.erase(ptr+1);
+            // cout<<str<<endl;
+            
+            int n = str.length();
+           
+            int i = 0, j = -1;
+
+            // flag that sets to true is space is found
+            bool spaceFound = false;
+
+            // Handles leading spaces
+            while (++j < n && str[j] == ' ');
+
+            // read all characters of original string
+            while (j < n)
+            {
+                // if current characters is non-space
+                if (str[j] != ' ')
+                {
+                        str[i++] = str[j++];
+
+                    // set space flag to false when any
+                    // non-space character is found
+                    spaceFound = false;
+                }
+                // if current character is a space
+                else if (str[j++] == ' ')
+                {
+                    // If space is encountered for the first
+                    // time after a word, put one space in the
+                    // output and set space flag to true
+                    if (!spaceFound)
+                    {
+                        str[i++] = ' ';
+                        spaceFound = true;
+                    }
+                }
+            }
+
+            // Remove trailing spaces
+            str.erase(str.begin() + i, str.end());
+        }
+        
+};
