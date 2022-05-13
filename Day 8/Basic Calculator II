@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int calculate(string s) {
+        char sign = '+';
+        int ans = 0, cur = 0, hold = 0;
+        
+        for(int i = 0; i < s.size(); i++) {
+            if(s[i] >= '0' && s[i] <= '9') {   // make current number
+                while(i < s.size() && s[i] >= '0' && s[i] <= '9') {
+                    cur = cur * 10 + (s[i] - '0');
+                    i++;
+                }
+                i--;
+            }
+            
+            // if not white space and not digit or we are at the end process it
+            if((!isdigit(s[i]) && s[i] != ' ') || i == s.size() - 1) {  
+                // we can add our previous answers to final answer, 3 + 5/2 , we are holding 3 but when 
+                // we find '+' we can add previous value to the answer
+                if(sign == '+') {     
+                    ans += hold;
+                    hold = cur;
+                }
+                else if(sign == '-') {
+                    ans += hold;
+                    hold = -cur;
+                }
+                else if(sign == '*')  hold *= cur;   // whatever we are holding apply * or / operation
+                else                  hold /= cur;
+
+                sign = s[i];
+                cur = 0;    
+            }
+        }
+        
+        return ans + hold;
+    }
+};
