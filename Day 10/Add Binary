@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string s= "";
+        int carry=0;
+        int x= a.size()-1 , y= b.size()-1;
+        
+        while(x>=0 ||y>=0 || carry>0)
+        {
+            int sum =  (x>=0?(a[x]-'0'):0) + (y>=0?(b[y]-'0'):0) + carry;
+            if(sum>=2){
+                carry=1;
+                sum= sum%2;
+            }
+            else carry=0;
+            s+=(sum+'0');
+            x--; y--;
+        }
+        reverse(s.begin(),s.end());
+        return s;
+    }
+};
