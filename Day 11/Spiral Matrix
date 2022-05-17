@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        std::vector<int> ans;
+        int i = 0, j = 0, k = matrix.size() - 1, l = matrix[0].size() - 1;
+        while( k >= i && l >= j) {
+            helper(ans, matrix, i, j, k, l);
+            i++;
+            j++;
+            k--;
+            l--;
+        }
+        return ans;
+    }
+    void helper(std::vector<int> &ans, std::vector<std::vector<int>>& matrix, 
+            int i, int j, int k, int l) {
+        if (i == k && j == l) {
+            ans.push_back(matrix[i][j]);
+            return;
+        }
+        if (i == k) {
+            for (int q = j; q <= l; ++q) {
+                ans.push_back(matrix[i][q]);
+            }
+            return;
+        }
+        if (j == l) {
+            for (int q = i; q <= k; ++q) {
+                ans.push_back(matrix[q][j]);
+            }
+            return;
+        }
+        for (int q = j; q <= l; ++q) 
+            ans.push_back(matrix[i][q]);
+        for (int q = i + 1; q <= k; ++q) 
+            ans.push_back(matrix[q][l]);
+        for (int q = l - 1; q >= j; --q) 
+            ans.push_back(matrix[k][q]);
+        for (int q = k - 1; q > i; --q) 
+            ans.push_back(matrix[q][j]);
+    }
+};
