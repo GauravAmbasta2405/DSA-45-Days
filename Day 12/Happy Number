@@ -1,0 +1,28 @@
+class Solution {
+public:
+    bool isHappy(int n) {
+        int num=n;
+        int x,y;
+        
+        while(num>9){
+            int result=0;
+            while(num>0){
+                x=num%10;
+                y=x*x;
+                result+=y;
+                num/=10;
+            }
+            num=result;
+            /*if(num!=1){
+                return false;
+            }*/
+        }
+        if(num==1 || num==7){
+            return true;
+        }
+        else{
+            return false;
+           }
+        }
+        
+};
